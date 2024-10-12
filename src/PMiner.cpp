@@ -426,6 +426,7 @@ bool PatternMatching::build_P_adj(const std::string &inputfile, unsigned vertexN
     edgeNum_P = 0;
     degree_P = (Degree *)calloc(vertexNum_P, sizeof(Degree));
     std::vector<std::vector<P_ID>> tmp(vertexNum_P, std::vector<P_ID>(vertexNum_P)); 
+    FILE *inf = fopen(inputfile.c_str(), "r");
     if (inf == NULL)
     {
         std::cerr << "Could not load :" << inputfile << " error: " << strerror(errno)
