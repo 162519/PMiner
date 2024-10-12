@@ -53,11 +53,11 @@ struct P_edge
 class block
 {
 private:
-    int size; //块内能够存储的总边数
+    int size; 
     R_ID startId;
     R_ID endId;
     vector<R_ID> adj;
-    unordered_map<R_ID, int> adjIndex; // key为点id，value为该点的邻居在block中的起始位置
+    unordered_map<R_ID, int> adjIndex; 
 public:
     block(int n, R_ID begin, R_ID end)
     {
@@ -66,7 +66,7 @@ public:
         startId = begin;
         endId = end;
     }
-    void buildIndex(Degree* degree_R)//块内索引
+    void buildIndex(Degree* degree_R)
     {
         adjIndex[startId] = 0;
         for(R_ID i=startId+1;i<=endId;i++){
@@ -90,25 +90,25 @@ class PatternMatching
 {
 public:
     
-    PatternMatching(){};                                            //待补充，构造函数
-    virtual ~PatternMatching();                                     //待补充，析构函数
+    PatternMatching(){};                                            
+    virtual ~PatternMatching();                                     
     void init(const std::string &Output_dir, int thread_num);                              // sky211116
     
-    bool build_degree_Rs(const std::string &inputfile, unsigned vertexNum); //得到degree_R                        使用fstream方式读入
-    bool build_R_adjs(const std::string &inputfile);                        //得到用一维数组存储的邻接表和逆邻接表   使用fstream方式读入
+    bool build_degree_Rs(const std::string &inputfile, unsigned vertexNum); 
+    bool build_R_adjs(const std::string &inputfile);                        
     void FIXLINE(char *s);
-    bool build_degree_R(const std::string &inputfile, unsigned vertexNum); //得到degree_R
-    bool build_R_adj(const std::string &inputfile);                        //得到用一维数组存储的邻接表和逆邻接表
-    bool build_P_adj(const std::string &inputfile, unsigned vertexNum);    //用邻接矩阵存储模式图
+    bool build_degree_R(const std::string &inputfile, unsigned vertexNum); 
+    bool build_R_adj(const std::string &inputfile);                        
+    bool build_P_adj(const std::string &inputfile, unsigned vertexNum);   
 
 
     bool matchPR_expand();
     bool PVAllVisited(vector<int> P_visited);
-    void findSym(); //判断P中是否有等价点
+    void findSym(); 
     void sym_searchPG(std::vector<std::vector<unsigned>> PMR_copy, std::vector<int> sel_copy, std::vector<std::vector<P_ID>> P_adj_copy, R_ID current_match_RID, P_ID current_match_PID, bool branchFinish, long long &result, int ori_centerID, unordered_map<R_ID,int> isTraversed);
     void sym_extendEdgePattern(P_ID v_ps, P_ID v_pt, R_ID cur_r_vs, std::vector<std::vector<unsigned>> &PMR_copy, std::vector<int> &sel_copy, std::vector<std::vector<P_ID>> &P_adj, bool &branchFinish,unordered_map<R_ID,int> isTraversed);
     void sym_reverse_extendEdgePattern(P_ID v_pt, P_ID v_ps, R_ID cur_r_vt, std::vector<std::vector<unsigned>> &PMR_copy, std::vector<int> &sel_copy, std::vector<std::vector<P_ID>> &P_adj, bool &branchFinish,unordered_map<R_ID,int> isTraversed);
-    void build_constraint();//构建模式图的约束包含关系
+    void build_constraint();
     void build_center_order();
     void center_order_dfs(P_ID preCenter, std::vector<std::vector<P_ID>>P_adj_copy, vector<P_ID> temp_center_order, int center_oreder_size, int cur_order_sel,int & order_sel, vector<int> marked);
 
@@ -132,11 +132,11 @@ public:
 
     unsigned long long Multithreaded_search(R_ID i);
     unsigned long long searchPG(std::vector<std::vector<unsigned>> PMR_copy, std::vector<std::vector<P_ID>> P_adj_copy, R_ID current_match_RID, int P_center_index,unordered_set<R_ID>& isTraversed);
-    bool isNextEPatternEmpty(std::vector<std::vector<P_ID>> &P_adj_copy); //判断剩下边模式是否为空
+    bool isNextEPatternEmpty(std::vector<std::vector<P_ID>> &P_adj_copy); 
     bool extendEdgePattern(P_ID v_ps, R_ID cur_r_vs, std::vector<std::vector<unsigned>> &PMR_copy, std::vector<std::vector<P_ID>> &P_adj,unordered_set<R_ID>& isTraversed);
     bool reverse_extendEdgePattern(P_ID v_pt, R_ID cur_r_vt, std::vector<std::vector<unsigned>> &PMR_copy, std::vector<std::vector<P_ID>> &P_adj, unordered_set<R_ID>& isTraversed);
-    unsigned long long count_set(std::vector<std::vector<unsigned>> &PMR_copy, unordered_set<R_ID>& isTraversed); //集合运算计数
-    unsigned long long count_full(std::vector<std::vector<unsigned>> &PMR_copy, unordered_set<R_ID>& isTraversed); //全排计数
+    unsigned long long count_set(std::vector<std::vector<unsigned>> &PMR_copy, unordered_set<R_ID>& isTraversed); 
+    unsigned long long count_full(std::vector<std::vector<unsigned>> &PMR_copy, unordered_set<R_ID>& isTraversed); 
 
 
 
@@ -153,12 +153,12 @@ public:
     unsigned long long full_permutation8(std::vector<std::vector<unsigned>> &PMR_remain);
     unsigned long long full_permutation(std::vector<std::vector<unsigned>> &PMR_remain, int index, unordered_set<unsigned>& set);
     void merge_un_set(std::vector<P_ID>& v1, std::vector<P_ID>& v2, std::unordered_set<P_ID>& un_set);
-    void merge_set(std::vector<P_ID>& v1, std::vector<P_ID>& v2, std::vector<P_ID>& v3); //求并
+    void merge_set(std::vector<P_ID>& v1, std::vector<P_ID>& v2, std::vector<P_ID>& v3); 
     unsigned merge_count(std::vector<P_ID>& v1, std::vector<P_ID>& v2);
-    bool intersection(std::vector<R_ID> &Mtemp, std::vector<R_ID> &PMR_copy_oneline);                                    //求Mtemp和Mpt的交集，已针对大规模数据进行优化，返回值为交集是否为空
+    bool intersection(std::vector<R_ID> &Mtemp, std::vector<R_ID> &PMR_copy_oneline);                                    
 
 
-    bool De_duplication(std::vector<unsigned> unchecked_res); // 同构去重
+    bool De_duplication(std::vector<unsigned> unchecked_res); 
     unsigned full_arrangement(std::vector<vector<R_ID>> cur_thread_PMR);
     bool check_result(std::vector<std::vector<unsigned>> &PMR_copy); // sky211118
     bool check_result(vector<unsigned> PMR_copy);
@@ -172,56 +172,55 @@ public:
     void input_start(vector<R_ID>& minMatchID_PMR);
 
 private:
-    //unsigned *R_visited;  //标记真实图中结点是否已访问，用于排除中心点,char类型节约存储空间
-    int ThreadNum; // 线程数
-    unsigned minMatchNum; //最小匹配的节点数
-    vector<P_ID> minMatchIDs; // 模式图出入度最大的点；matchPR_expand中计算
-    P_ID minMatchID;      //初始最小匹配节点；从minMatchIDs中的点出发确定路径，最终确定minMatchID
+    //unsigned *R_visited;  
+    int ThreadNum; 
+    unsigned minMatchNum; 
+    vector<P_ID> minMatchIDs; 
+    P_ID minMatchID;      
     R_ID maxID;
     Degree *degree_P;
     Degree *degree_R;
-    std::vector<int> sel; //每个模式图点的选择度，记录了每个模式图点的在实际图中的匹配数量
+    std::vector<int> sel; 
     unsigned vertexNum_R;
     unsigned vertexNum_P;
     unsigned edgeNum_R;
     unsigned edgeNum_P;
-    std::vector<std::vector<P_ID>> P_adj;    //模式图邻接矩阵，0代表两点之间没有边，1代表两点之间有边且未被访问过，2代表两点之间有边且已被访问过
+    std::vector<std::vector<P_ID>> P_adj;    
 
-
-    //使用从小到大的PMR拓展过程20211008
     
     
+    
 
-    unsigned *R_adj;         //邻接表
-    unsigned *R_reverse_adj; //逆邻接表
-    unsigned *R_adjIndex;    //邻接表from节点在邻接表中的起始位置
+    unsigned *R_adj;         
+    unsigned *R_reverse_adj; 
+    unsigned *R_adjIndex;    
     unsigned *R_reverseAdjIndex;
     std::shared_ptr<SynchronizedFile> outputfile_ptr; // sky211116
     std::vector<R_ID> minMatchID_PMR;
 
     // findSym
-    unordered_map<P_ID, int> sym;            //模式图中的等价点组,key为模式图id，value为等价点组编号，value相同的模式图点在同一等价点组中
-    unordered_map<int, set<P_ID>> sym_group; // key为等价点组，value为同组所有等价点
-    std::vector<std::vector<unsigned>> Equivalent_order; // 二维数组，严格等价点排序数组
-    bool isSym; //记录当前模式图是否自同构，如果自同构则需要进行同构检测
-    int symNum; //自同构个数 自己挖掘自己
-    int circleSize; // 等价环顶点个数
+    unordered_map<P_ID, int> sym;            
+    unordered_map<int, set<P_ID>> sym_group; 
+    std::vector<std::vector<unsigned>> Equivalent_order; 
+    bool isSym; 
+    int symNum; 
+    int circleSize; 
 
     // build_constraint
-    // extend_oreder的构建和起点无关
-    std::vector<std::vector<P_ID>> extend_oreder; // 二维数组，记录从每个点出发的访问顺序，从约束包含关系最小的点开始， 按总出入度计算约束包含关系， i*2是出度边的访顺序，i*2+1是入度边的访问顺序
-    int need_full; // 需要全排的行数
-    bool need_full_no_dup_rem; // 全排是否需要去重，若分析后两两都没有交集，则直接全排，不用去重判断，true表示不用去重判断
-    vector<int> full_index; // 需要全排PMR行的索引
-    std::vector<std::vector<P_ID>> antecedent_pid; // 记录从i点挖掘j点时，j的前继约束包含点，即j的搜索范围应该是这个约束包含点的pmr集合
-    std::vector<std::vector<std::vector<P_ID>>> successor_pid; // 记录从i点挖掘j点时，j的后继约束包含点（有多个，所以是三位数组），后继节点如果已经访问则移除，当后继节点为空时，则不用记录j的匹配集合，因为后面不会使用
-    std::vector<std::vector<std::vector<P_ID>>> str_successor_pid; //记录从i点挖掘j点时，j的严格后继约束包含点（有多个，所以是三位数组），严格后继约束包含点即和j的出度入度完全相同的点
+    
+    std::vector<std::vector<P_ID>> extend_oreder;
+    int need_full; 
+    bool need_full_no_dup_rem;
+    vector<int> full_index; 
+    std::vector<std::vector<P_ID>> antecedent_pid; 
+    std::vector<std::vector<std::vector<P_ID>>> successor_pid; 
+    std::vector<std::vector<std::vector<P_ID>>> str_successor_pid; 
 
     //build_center_order
-    vector<P_ID> center_order; // 中心点访问顺序
+    vector<P_ID> center_order;
 public:
     // findSym
-    bool isEqCircle; //是否是等价环
+    bool isEqCircle; 
 
     string startsIdsfilename;
 
